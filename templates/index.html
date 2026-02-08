@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="filters">
+    <form method="get" class="filter-form">
+      <label for="status">Статус</label>
+      <select name="status" id="status" onchange="this.form.submit()">
+        <option value="all" {% if status_filter == 'all' %}selected{% endif %}>Все</option>
+        <option value="draft" {% if status_filter == 'draft' %}selected{% endif %}>Черновик</option>
+        <option value="in_review" {% if status_filter == 'in_review' %}selected{% endif %}>На согласовании</option>
+        <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Утвержден</option>
+        <option value="archived" {% if status_filter == 'archived' %}selected{% endif %}>Архив</option>
+      </select>
+    </form>
+  </section>
+
+  <section class="card-grid">
+    {% for document in documents %}
+      <article class="card">
+        <div>
+          <span class="status {{ document['status'] }}">{{ document['status'] }}</span>
+          <h2>{{ document['title'] }}</h2>
+          <p class="meta">Обновлено: {{ document['updated_at'] }}</p>
+        </div>
+        <div class="actions">
+          <a class="button" href="{{ url_for('document_detail', document_id=document['id']) }}">Открыть</a>
+          <a class="button ghost" href="{{ url_for('edit_document', document_id=document['id']) }}">Редактировать</a>
+          <form method="post" action="{{ url_for('delete_document', document_id=document['id']) }}">
+            <button class="button danger" type="submit">Удалить</button>
+          </form>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty">
+        <h2>Документы отсутствуют</h2>
+        <p>Создайте первый документ, чтобы начать работу.</p>
+      </div>
+    {% endfor %}
+  </section>
+{% endblock %}

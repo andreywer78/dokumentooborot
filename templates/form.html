@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="form-card">
+    <h2>{% if document %}Редактирование{% else %}Новый документ{% endif %}</h2>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="post" class="form-grid">
+      <label>
+        Название
+        <input type="text" name="title" value="{{ document['title'] if document else '' }}" required />
+      </label>
+      <label>
+        Содержимое
+        <textarea name="content" rows="8" required>{{ document['content'] if document else '' }}</textarea>
+      </label>
+      <label>
+        Статус
+        <select name="status">
+          <option value="draft" {% if document and document['status'] == 'draft' %}selected{% endif %}>Черновик</option>
+          <option value="in_review" {% if document and document['status'] == 'in_review' %}selected{% endif %}>На согласовании</option>
+          <option value="approved" {% if document and document['status'] == 'approved' %}selected{% endif %}>Утвержден</option>
+          <option value="archived" {% if document and document['status'] == 'archived' %}selected{% endif %}>Архив</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button class="button primary" type="submit">Сохранить</button>
+        <a class="button ghost" href="{{ url_for('index') }}">Отмена</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

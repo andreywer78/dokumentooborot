@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Документооборот</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header class="header">
+      <div>
+        <h1>Система документооборота</h1>
+        <p>Управляйте документами, отслеживайте статусы и обновления.</p>
+      </div>
+      <a class="button primary" href="{{ url_for('create_document') }}">+ Новый документ</a>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
